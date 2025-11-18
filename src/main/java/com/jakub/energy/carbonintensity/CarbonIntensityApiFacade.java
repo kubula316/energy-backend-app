@@ -1,10 +1,10 @@
-package com.jakub.energy.service;
+package com.jakub.energy.carbonintensity;
 
-import com.jakub.energy.model.GenerationInterval;
+import com.jakub.energy.carbonintensity.model.GenerationInterval;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface CarbonIntensityApiService {
+public interface CarbonIntensityApiFacade {
     public List<GenerationInterval> getCarbonIntensityGenerationData(LocalDateTime from, LocalDateTime to);
 }

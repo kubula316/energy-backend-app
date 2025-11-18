@@ -1,4 +1,4 @@
-package com.jakub.energy.dto;
+package com.jakub.energy.mix.model;
 
 import java.time.LocalDateTime;
 

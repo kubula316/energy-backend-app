@@ -20,18 +20,5 @@ public class AppConfig {
         return new RestTemplate();
     }
 
-    @Bean
-    @Primary
-    public ObjectMapper objectMapper() {
-        JavaTimeModule module = new JavaTimeModule();
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-
-        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
-        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(module);
-        return mapper;
-    }
 }
 
