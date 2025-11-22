@@ -15,7 +15,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("${CORS_ALLOWED_ORIGINS}")
+                        .allowedOrigins("cors.allowed.origin")
                         .allowedMethods("GET")
                         .allowedHeaders("Content-Type", "Accept");
             }
