@@ -6,4 +6,4 @@ cors:
 
 api:
   carbon-intensity:
-    base-url: ${CARBON_INTENSITY_API_BASE_URL}
+    base-url: ${CARBON_INTENSITY_API_BASE_URL:https://api.carbonintensity.org.uk/generation/}
