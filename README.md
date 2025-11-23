@@ -62,3 +62,6 @@ The API is available under the `/energy` path.
       "averageCleanEnergyPercentage": 75.73333333333335
     }
     ```
+
+### 3. Test Coverrage
+![img.png](img.png)
