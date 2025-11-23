@@ -3,6 +3,7 @@ package com.jakub.energy.carbonintensity;
 import com.jakub.energy.carbonintensity.model.CarbonIntensityGenerationResponse;
 import com.jakub.energy.carbonintensity.model.GenerationInterval;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,16 +15,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class CarbonIntensityApiService implements CarbonIntensityApiFacade {
 
-    private static final String API_BASE_URL = "https://api.carbonintensity.org.uk/generation/";
-    private static final String URL_TEMPLATE = API_BASE_URL + "%s/%s";
+    @Value("${api.carbon-intensity.base-url}")
+    private String baseUrl;
+
+    private static final String URL_TEMPLATE = "%s%s/%s";
 
     private final RestTemplate restTemplate;
 
     @Override
     public List<GenerationInterval> getCarbonIntensityGenerationData(LocalDateTime from, LocalDateTime to) {
-        var url = String.format(URL_TEMPLATE, from, to);
+        String url = URL_TEMPLATE.formatted(baseUrl, from, to);
         try {
-            var response = restTemplate.getForObject(url, CarbonIntensityGenerationResponse.class);
+            CarbonIntensityGenerationResponse response = restTemplate.getForObject(url, CarbonIntensityGenerationResponse.class);
             return Optional.ofNullable(response)
                     .map(CarbonIntensityGenerationResponse::data)
                     .orElse(List.of());
