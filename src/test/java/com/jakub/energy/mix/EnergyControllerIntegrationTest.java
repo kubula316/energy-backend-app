@@ -54,7 +54,7 @@ public class EnergyControllerIntegrationTest {
         when(restTemplate.getForObject(anyString(), eq(CarbonIntensityGenerationResponse.class)))
                 .thenReturn(apiResponse);
 
-        mockMvc.perform(get("/api/energy/mix"))
+        mockMvc.perform(get("/energy/mix"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(3))
@@ -64,13 +64,13 @@ public class EnergyControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Integration Test - GET /api/energy/optimal-charging - Should return optimal charging window")
+    @DisplayName("Integration Test - GET /energy/optimal-charging - Should return optimal charging window")
     void shouldReturnOptimalChargingWindow() throws Exception {
 
         when(restTemplate.getForObject(anyString(), eq(CarbonIntensityGenerationResponse.class)))
                 .thenReturn(apiResponse);
 
-        mockMvc.perform(get("/api/energy/optimal-charging")
+        mockMvc.perform(get("/energy/optimal-charging")
                         .param("duration", "2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.startTime").value("2025-11-19T02:00:00"))

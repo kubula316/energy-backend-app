@@ -38,7 +38,7 @@ class EnergyControllerTest {
     private EnergyFacade energyFacade;
 
     @Test
-    @DisplayName("GET /api/energy/optimal-charging - Should return 200")
+    @DisplayName("GET /energy/optimal-charging - Should return 200")
     void shouldReturnOptimalChargingWindow() throws Exception {
 
         ZonedDateTime start = LocalDateTime.of(2023, 10, 1, 12, 0).atZone(ZoneOffset.UTC);
@@ -48,7 +48,7 @@ class EnergyControllerTest {
 
         when(energyFacade.getOptimalChargingWindow(3)).thenReturn(optimalChargingWindow);
 
-        mockMvc.perform(get("/api/energy/optimal-charging")
+        mockMvc.perform(get("/energy/optimal-charging")
                         .param("duration", "3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -58,27 +58,27 @@ class EnergyControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/energy/optimal-charging - Should return 400")
+    @DisplayName("GET /energy/optimal-charging - Should return 400")
     void shouldReturnBadRequestForInvalidDuration() throws Exception {
 
-        mockMvc.perform(get("/api/energy/optimal-charging")
+        mockMvc.perform(get("/energy/optimal-charging")
                         .param("duration", "10")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
-        mockMvc.perform(get("/api/energy/optimal-charging")
+        mockMvc.perform(get("/energy/optimal-charging")
                         .param("duration", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("GET /api/energy/optimal-charging - Should return 404")
+    @DisplayName("GET /energy/optimal-charging - Should return 404")
     void shouldReturnNotFoundWhenWindowNotFound() throws Exception {
         when(energyFacade.getOptimalChargingWindow(3))
                 .thenThrow(new OptimalChargingWindowNotFoundException("Not enough data"));
 
-        mockMvc.perform(get("/api/energy/optimal-charging")
+        mockMvc.perform(get("/energy/optimal-charging")
                         .param("duration", "3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
@@ -86,7 +86,7 @@ class EnergyControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/energy/mix - Should return 200")
+    @DisplayName("GET /energy/mix - Should return 200")
     void shouldReturnEnergyMix() throws Exception {
 
         DailyEnergyMixDto mix1 = new DailyEnergyMixDto(LocalDate.now(), Map.of("hydro", 10.0), 50.0);
@@ -95,7 +95,7 @@ class EnergyControllerTest {
 
         when(energyFacade.getThreeDaysEnergyMix()).thenReturn(List.of(mix1, mix2, mix3));
 
-        mockMvc.perform(get("/api/energy/mix")
+        mockMvc.perform(get("/energy/mix")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
@@ -104,12 +104,12 @@ class EnergyControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/energy/mix - Should return 502 (API fails)")
+    @DisplayName("GET /energy/mix - Should return 502 (API fails)")
     void shouldReturnBadGatewayWhenExternalApiFails() throws Exception {
         when(energyFacade.getThreeDaysEnergyMix())
                 .thenThrow(new ExternalDataFetchException("API failure", new RuntimeException()));
 
-        mockMvc.perform(get("/api/energy/mix")
+        mockMvc.perform(get("/energy/mix")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadGateway())
                 .andExpect(jsonPath("$.detail").value("API failure"));
