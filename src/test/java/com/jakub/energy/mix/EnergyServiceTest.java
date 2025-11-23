@@ -37,7 +37,7 @@ class EnergyServiceTest {
     @DisplayName("getThreeDaysEnergyMix - Should group by date and calculate averages")
     void shouldCalculateThreeDaysMix() {
 
-        ZonedDateTime now = LocalDateTime.now().atZone(ZoneOffset.UTC);
+        ZonedDateTime now = LocalDateTime.now().withHour(12).withMinute(0).atZone(ZoneOffset.UTC);
 
         GenerationInterval day1_1 = createTestInterval(now, 10.0);
         GenerationInterval day1_2 = createTestInterval(now.plusMinutes(30), 20.0);
