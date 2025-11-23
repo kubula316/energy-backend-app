@@ -48,7 +48,7 @@ public class EnergyControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Integration Test - GET /api/energy/mix - Should return three days energy mix")
+    @DisplayName("Integration Test - GET /energy/mix - Should return three days energy mix")
     void shouldReturnThreeDaysEnergyMix() throws Exception {
 
         when(restTemplate.getForObject(anyString(), eq(CarbonIntensityGenerationResponse.class)))
