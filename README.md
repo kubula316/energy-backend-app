@@ -28,19 +28,19 @@ The API is available under the `/energy` path.
     ```json
     [
       {
-        "date": "2024-07-29",
-        "mix": {
-          "gas": 35.5,
-          "coal": 2.1,
-          "biomass": 5.8,
-          "nuclear": 15.6,
-          "hydro": 1.2,
-          "imports": 8.9,
-          "other": 0.1,
-          "solar": 10.4,
-          "wind": 20.4
+        "date": "2025-11-23",
+        "averageGenerationMix": {
+            "hydro": 0.016666666666666666,
+            "other": 0.0,
+            "biomass": 9.106250000000001,
+            "imports": 11.833333333333334,
+            "gas": 11.433333333333337,
+            "solar": 2.5687499999999996,
+            "coal": 0.0,
+            "nuclear": 13.568749999999996,
+            "wind": 51.45208333333332
         },
-        "cleanEnergyPercentage": 52.6
+        "cleanEnergyPercentage": 76.71249999999998
       },
       ...
     ]
@@ -57,8 +57,8 @@ The API is available under the `/energy` path.
         -   `Default`: 3
     ```json
     {
-      "from": "2024-07-30T14:00:00Z",
-      "to": "2024-07-30T17:00:00Z",
-      "averageCleanliness": 85.5
+      "startTime": "2025-11-23T21:30:00",
+      "endTime": "2025-11-24T03:30:00",
+      "averageCleanEnergyPercentage": 75.73333333333335
     }
     ```
