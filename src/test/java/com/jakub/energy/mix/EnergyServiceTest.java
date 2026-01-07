@@ -36,7 +36,7 @@ class EnergyServiceTest {
     @Test
     @DisplayName("getThreeDaysEnergyMix - Should group by date and calculate averages")
     void shouldCalculateThreeDaysMix() {
-
+        // Given
         ZonedDateTime now = LocalDateTime.now().withHour(12).withMinute(0).atZone(ZoneOffset.UTC);
 
         GenerationInterval day1_1 = createTestInterval(now, 10.0);
@@ -54,8 +54,10 @@ class EnergyServiceTest {
         when(carbonIntensityFacade.getCarbonIntensityGenerationData(any(), any()))
                 .thenReturn(List.of(day1_1, day1_2, day1_3, day2_1, day2_2, day2_3, day3_1, day3_2, day3_3));
 
+        // When
         List<DailyEnergyMixDto> result = energyService.getThreeDaysEnergyMix();
 
+        // Then
         assertNotNull(result);
         assertEquals(3, result.size());
 
@@ -78,17 +80,18 @@ class EnergyServiceTest {
     @Test
     @DisplayName("getThreeDaysEnergyMix - Should throw ExternalDataFetchException when API fails")
     void shouldThrowExceptionWhenFetchingMixFails() {
-
+        // Given
         when(carbonIntensityFacade.getCarbonIntensityGenerationData(any(), any()))
                 .thenThrow(new RuntimeException("Connection refused"));
 
+        // When & Then
         assertThrows(ExternalDataFetchException.class, () -> energyService.getThreeDaysEnergyMix());
     }
 
     @Test
     @DisplayName("getOptimalChargingWindow - Should find optimal window based on clean energy")
     void shouldFindOptimalChargingWindow() {
-
+        // Given
         ZonedDateTime now = LocalDateTime.now().atZone(ZoneOffset.UTC);
 
         List<GenerationInterval> intervals = Stream.iterate(0, i -> i + 1)
@@ -109,8 +112,10 @@ class EnergyServiceTest {
         when(carbonIntensityFacade.getCarbonIntensityGenerationData(any(), any()))
                 .thenReturn(intervals);
 
+        // When
         OptimalChargingWindowDto result = energyService.getOptimalChargingWindow(3);
 
+        // Then
         assertNotNull(result);
         assertEquals(now.plusHours(15).toLocalDateTime(), result.startTime());
         assertEquals(now.plusHours(18).toLocalDateTime(), result.endTime());
@@ -120,10 +125,11 @@ class EnergyServiceTest {
     @Test
     @DisplayName("getOptimalChargingWindow - Should throw ExternalDataFetchException when API fails")
     void shouldThrowExceptionWhenFetchingOptimalWindowFails() {
-
+        // Given
         when(carbonIntensityFacade.getCarbonIntensityGenerationData(any(), any()))
                 .thenThrow(new RuntimeException("Connection refused"));
 
+        // When & Then
         assertThrows(ExternalDataFetchException.class, () -> energyService.getOptimalChargingWindow(2));
     }
 

@@ -2,6 +2,7 @@ package com.jakub.energy.carbonintensity;
 
 import com.jakub.energy.carbonintensity.model.CarbonIntensityGenerationResponse;
 import com.jakub.energy.carbonintensity.model.GenerationInterval;
+import com.jakub.energy.exception.CarbonIntensityApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ class CarbonIntensityApiService implements CarbonIntensityApiFacade {
                     .map(CarbonIntensityGenerationResponse::data)
                     .orElse(List.of());
         } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch generation data", e);
+            throw new CarbonIntensityApiException("Failed to fetch generation data from Carbon Intensity API", e);
         }
     }
 }

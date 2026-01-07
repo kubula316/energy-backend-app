@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
+
 @Service
 @RequiredArgsConstructor
 class EnergyService implements EnergyFacade {
@@ -40,7 +42,7 @@ class EnergyService implements EnergyFacade {
             return intervalsByDate.entrySet().stream()
                     .map(entry -> calculateDailyAverage(entry.getKey(), entry.getValue()))
                     //Sort for frontend convenience
-                    .sorted(Comparator.comparing(DailyEnergyMixDto::date))
+                    .sorted(comparing(DailyEnergyMixDto::date))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new ExternalDataFetchException("Failed to fetch three-day energy mix data", e);
@@ -66,15 +68,12 @@ class EnergyService implements EnergyFacade {
                 .map(this::calculateCleanPercentageForInterval)
                 .toList();
 
-        double maxWindowSum = 0;
-        int optimalStartIndex = -1;
-
         double currentWindowSum = 0;
         for (int i = 0; i < intervalsNeeded; i++) {
             currentWindowSum += cleanScores.get(i);
         }
-        maxWindowSum = currentWindowSum;
-        optimalStartIndex = 0;
+        double maxWindowSum = currentWindowSum;
+        int optimalStartIndex = 0;
 
         for (int i = 1; i <= cleanScores.size() - intervalsNeeded; i++) {
             double outgoing = cleanScores.get(i - 1);

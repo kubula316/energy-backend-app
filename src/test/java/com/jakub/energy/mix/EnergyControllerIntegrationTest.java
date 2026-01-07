@@ -50,10 +50,11 @@ public class EnergyControllerIntegrationTest {
     @Test
     @DisplayName("Integration Test - GET /energy/mix - Should return three days energy mix")
     void shouldReturnThreeDaysEnergyMix() throws Exception {
-
+        // Given
         when(restTemplate.getForObject(anyString(), eq(CarbonIntensityGenerationResponse.class)))
                 .thenReturn(apiResponse);
 
+        // When & Then
         mockMvc.perform(get("/energy/mix"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
@@ -66,10 +67,11 @@ public class EnergyControllerIntegrationTest {
     @Test
     @DisplayName("Integration Test - GET /energy/optimal-charging - Should return optimal charging window")
     void shouldReturnOptimalChargingWindow() throws Exception {
-
+        // Given
         when(restTemplate.getForObject(anyString(), eq(CarbonIntensityGenerationResponse.class)))
                 .thenReturn(apiResponse);
 
+        // When & Then
         mockMvc.perform(get("/energy/optimal-charging")
                         .param("duration", "2"))
                 .andExpect(status().isOk())
